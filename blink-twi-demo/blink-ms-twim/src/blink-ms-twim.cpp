@@ -2,17 +2,19 @@
  *  Blink TWI Master for Arduino (PlatformIO)
  *  Author: Gustavo Casanova
  *  ...........................................
- *  File: blink-twim-ino-io.cpp (Application)
+ *  File: blink-ms-twim.cpp (Application)
  *  ........................................... 
  *  Version: 1.0 / 2020-05-29
  *  gustavo.casanova@gmail.com
  *  ...........................................
- *  This library allows scanning the TWI (I2C) bus in search
- *  of connected devices addresses and data. If a device found
- *  is running Timonel, it returns its version number.
+ *  This is an I2C master-side serial commander to control a
+ *  general-purpose application running on a slave microcontroller.
+ *  It runs on Arduino compatible microcontroller and uses the
+ *  NB libraries as an upper communication layer on top of the
+ *  Arduino Wire library.
  */
 
-#include <blink-twim-ino-io.h>
+#include <blink-ms-twim.h>
 
 // Global variables
 NbMicro *p_micro = nullptr;
@@ -21,7 +23,7 @@ char key = '\0';
 
 // put your setup code here, to run once:
 void setup() {
-    USE_SERIAL.begin(9600);  // Initialize the serial port for debugging
+    USE_SERIAL.begin(SERIAL_BPS);  // Initialize the serial port for debugging
     ClrScr();
     // Detect slave
     byte slave_address = FindSlave();
@@ -116,6 +118,30 @@ void loop() {
 #endif  // ARDUINO_ARCH_ESP8266
                 break;
             }
+
+            // *********************************
+            // * Test app ||| EXITTMNL Command *
+            // *********************************
+            case 'r':
+            case 'R': {
+                USE_SERIAL.printf_P("\n. . .\n\r . .\n\r  .\n\n\r");
+                byte ret = p_micro->TwiCmdXmit(EXITTMNL, ACKEXITT);
+                if (ret) {
+                    USE_SERIAL.print(" > Error: ");
+                    USE_SERIAL.println(ret);
+
+                } else {
+                    USE_SERIAL.println(" > OK: EXITTMNL");
+                }
+                delay(500);
+#ifdef ARDUINO_ARCH_ESP8266
+                ESP.restart();
+#else
+                resetFunc();
+#endif  // ARDUINO_ARCH_ESP8266
+                break;
+            }
+
             // ******************
             // * Restart master *
             // ******************

@@ -2,7 +2,7 @@
  *  BLINK WIRE SLAVE for ATmega microcontrollers
  *  Author: Gustavo Casanova / Nicebots
  *  ................................................
- *  File: blink-twis-ino-io.cpp (Blink application)
+ *  File: blink-sl-wires.cpp (Blink application)
  *  ................................................ 
  *  Version: 1.0 / 2020-05-16
  *  gustavo.casanova@nicebots.com
@@ -20,7 +20,7 @@
 */
 
 // Includes
-#include "blink-wires-ino-io.h"
+#include "blink-sl-wires.h"
 
 // Global variables
 uint8_t command[32] = {0}; /* I2C Command received from master  */
