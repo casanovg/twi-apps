@@ -21,7 +21,7 @@
 // Driver buffer defines
 // Allowed RX buffer sizes: 1, 2, 4, 8, 16, 32, 64, 128 or 256
 #ifndef TWI_RX_BUFFER_SIZE
-#define TWI_RX_BUFFER_SIZE 32
+#define TWI_RX_BUFFER_SIZE 64
 #endif /* TWI_RX_BUFFER_SIZE */
 
 #define TWI_RX_BUFFER_MASK (TWI_RX_BUFFER_SIZE - 1)
@@ -32,7 +32,7 @@
 
 // Allowed TX buffer sizes: 1, 2, 4, 8, 16, 32, 64, 128 or 256
 #ifndef TWI_TX_BUFFER_SIZE
-#define TWI_TX_BUFFER_SIZE 32
+#define TWI_TX_BUFFER_SIZE 64
 #endif /* TWI_TX_BUFFER_SIZE */
 
 #define TWI_TX_BUFFER_MASK (TWI_TX_BUFFER_SIZE - 1)
@@ -63,6 +63,10 @@
 #define TWI_NO_STATE 0xF8   // No relevant state information available; TWINT = “0”
 #define TWI_BUS_ERROR 0x00  // Bus error due to an illegal START or STOP condition
 
+// Function pointers
+void (*p_receive_event)(uint8_t);
+//void (*p_enable_slow_ops)(void);
+
 // TWI driver prototypes
 void FlushTwiBuffers(void);          // Flush TWI buffers
 void TwiDriverInit(uint8_t);         // Initializes TWI hardware and sets the slave device address
@@ -72,5 +76,7 @@ uint8_t TwiReceiveByte(void);        // Receives a byte from TWI master when it 
 bool TwiCheckReceiveBuffer(void);    // Checks for data in the receive buffer. TRUE=Ready to call TwiReceiveByte.
 void TwiClearOutputBuffer(void);     // Clears the transmit buffer in case of sync errors
 void TwiFillReceiveBuffer(uint8_t);  // Forces a byte into the receive buffer for debugging
+
+uint8_t rx_byte_count = 0;           // Bytes received in RX buffer
 
 #endif /* TWISLAVE_H_ */

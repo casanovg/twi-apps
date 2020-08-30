@@ -154,7 +154,14 @@ ISR(TWI_vect) {
         case TWI_SRX_ADR_DATA_ACK:
         case TWI_SRX_GEN_DATA_ACK: {
             // Fill receive buffer
-            TwiFillReceiveBuffer(TWDR);
+            // TwiFillReceiveBuffer(TWDR);
+            
+            // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            //if (p_receive_event) {                  //                           >>
+            //    p_receive_event(rx_byte_count);     // Process data in main ...    >>
+            //}                                       //                           >>
+            // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
             TWCR = (1 << TWEN) | (1 << TWIE) | (1 << TWINT) | (1 << TWEA);
             break;
         }
