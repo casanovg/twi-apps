@@ -19,10 +19,11 @@
 // USI TWI driver globals
 static uint8_t rx_buffer[TWI_RX_BUFFER_SIZE];
 static uint8_t tx_buffer[TWI_TX_BUFFER_SIZE];
-static volatile uint8_t rx_head;
-static volatile uint8_t rx_tail;
-static volatile uint8_t tx_head;
-static volatile uint8_t tx_tail;
+static uint8_t rx_head;
+static uint8_t rx_tail;
+static uint8_t tx_head;
+static uint8_t tx_tail;
+static uint8_t rx_byte_count = 0;           // Bytes received in RX buffer
 
 /*  ___________________
    |                   |
@@ -45,7 +46,7 @@ void TwiDriverInit(uint8_t address) {
            (0 << TWIE) | (0 << TWINT) |
            (0 << TWEA) | (0 << TWSTA) | (0 << TWSTO) |
            (0 << TWWC);
-    
+
     FlushTwiBuffers();
 
     return;
@@ -155,11 +156,11 @@ ISR(TWI_vect) {
         case TWI_SRX_GEN_DATA_ACK: {
             // Fill receive buffer
             // TwiFillReceiveBuffer(TWDR);
-            
+
             // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            //if (p_receive_event) {                  //                           >>
-            //    p_receive_event(rx_byte_count);     // Process data in main ...    >>
-            //}                                       //                           >>
+            if (p_receive_event) {                  //                           >>
+                p_receive_event(rx_byte_count);     // Process data in main ...    >>
+            }                                       //                           >>
             // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
             TWCR = (1 << TWEN) | (1 << TWIE) | (1 << TWINT) | (1 << TWEA);

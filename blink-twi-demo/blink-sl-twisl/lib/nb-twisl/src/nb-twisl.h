@@ -77,6 +77,4 @@ bool TwiCheckReceiveBuffer(void);    // Checks for data in the receive buffer. T
 void TwiClearOutputBuffer(void);     // Clears the transmit buffer in case of sync errors
 void TwiFillReceiveBuffer(uint8_t);  // Forces a byte into the receive buffer for debugging
 
-uint8_t rx_byte_count = 0;           // Bytes received in RX buffer
-
 #endif /* TWISLAVE_H_ */
