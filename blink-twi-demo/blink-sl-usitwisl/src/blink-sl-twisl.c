@@ -48,18 +48,19 @@ int main(void) {
     LED_DDR |= (1 << LED_PIN);   /* Set led control pin Data Direction Register for output */
     LED_PORT &= ~(1 << LED_PIN); /* Turn led off */
     _delay_ms(250);              /* Delay to allow programming at 1 MHz after power on */
-    
+
     // Wire.onReceive(ReceiveEvent);
     // Wire.onRequest(RequestEvent);
     // Wire.begin(TWI_ADDR);
     // Serial.begin(9600);
 
     UsiTwiDriverInit(TWI_ADDR);
-    
+    p_receive_event = ReceiveEvent;  // Pointer to TWI receive event function
+
     sei(); /* Enable Interrupts */
-    
+
     // ClrScr();
-    
+
     // Serial.println("\n\rBlink wire slave test started");
     // Serial.println(".............................\n\r");
 
@@ -93,7 +94,7 @@ int main(void) {
 void ReceiveEvent(uint8_t received_bytes) {
     for (uint8_t i = 0; i < received_bytes; i++) {
         //command[i] = Wire.read();
-        command[i] = TwiReceiveByte();
+        command[i] = UsiTwiReceiveByte();
 
         // Serial.print("0x");
         // Serial.print(command[i], HEX);
