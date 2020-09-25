@@ -93,6 +93,7 @@ uint8_t UsiTwiReceiveByte(void) {
    |_______________________________________________|
 */
 ISR(USI_START_VECTOR) {
+//ISR(USI_START_vect) {    
     SET_USI_SDA_AS_INPUT(); /* Float the SDA line */
     // Following a start condition, the device shifts the address present on the TWI bus in and
     // a 4-bit counter overflow is triggered. Afterward, within the overflow handler, the device
@@ -123,6 +124,7 @@ ISR(USI_START_VECTOR) {
    |______________________________________________|
 */
 ISR(USI_OVERFLOW_VECTOR) {
+//ISR(USI_OVF_vect) {    
     switch (twi_driver_state) {
         // If the address received after the start condition matches this device or is
         // a general call, reply ACK and check whether it should send or receive data.
