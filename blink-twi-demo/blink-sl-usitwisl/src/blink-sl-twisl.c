@@ -44,23 +44,18 @@ int main(void) {
       |    Setup Block    |
       |___________________|
     */
-    DisableWatchDog(); /* Disable watchdog to avoid continuous loop after reset */
-    SetCPUSpeed1MHz(); /* Set prescaler = 1 (System clock / 1) */
+    DisableWatchDog(); // Disable watchdog to avoid continuous loop after reset
+    SetCPUSpeed1MHz(); // Set prescaler = 1 (System clock / 1)
     // Set output pins
-    LED_DDR |= (1 << LED_PIN);   /* Set led control pin Data Direction Register for output */
-    LED_PORT &= ~(1 << LED_PIN); /* Turn led off */
-    _delay_ms(250);              /* Delay to allow programming at 1 MHz after power on */
-    SetCPUSpeed8MHz();           /* Set the CPU prescaler for 8 MHz */             /* Delay to allow programming at 1 MHz after power on */
+    LED_DDR |= (1 << LED_PIN);   // Set led control pin Data Direction Register for output
+    LED_PORT &= ~(1 << LED_PIN); // Turn led off
+    _delay_ms(250);              // Delay to allow programming at 1 MHz after power on
+    SetCPUSpeed8MHz();           // Set the CPU prescaler for 8 MHz
 
     UsiTwiDriverInit(TWI_ADDR);
     p_receive_event = ReceiveEvent;  // Pointer to TWI receive event function
 
-    sei(); /* Enable Interrupts */
-
-    // ClrScr();
-
-    // Serial.println("\n\rBlink wire slave test started");
-    // Serial.println(".............................\n\r");
+    sei(); // Enable Interrupts
 
     /* ___________________
       |                   | 
@@ -74,31 +69,15 @@ int main(void) {
 
         if (toggle_delay-- == 0) {
             if (blink == true) {
-                LED_PORT ^= (1 << LED_PIN); /* Toggle PB1 */
+                LED_PORT ^= (1 << LED_PIN); // Toggle PB1
             } else {
-                LED_PORT &= ~(1 << LED_PIN); /* Turn PB1 off */
+                LED_PORT &= ~(1 << LED_PIN); // Turn PB1 off
             }
             toggle_delay = LONG_DELAY;
         }
     }
     return 0;
 }
-
-// /* ________________________
-//   |                        |
-//   | TWI data receive event |
-//   |________________________|
-// */
-// void ReceiveEvent(uint8_t received_bytes) {
-//     for (uint8_t i = 0; i < received_bytes; i++) {
-//         //command[i] = Wire.read();
-//         command[i] = UsiTwiReceiveByte();
-
-//         // Serial.print("0x");
-//         // Serial.print(command[i], HEX);
-//         // Serial.print(" ");
-//     }
-// }
 
 /* ________________________
   |                        |
@@ -113,7 +92,7 @@ void ReceiveEvent(uint8_t received_bytes) {
         command[i] = UsiTwiReceiveByte();
     }
 
-    uint8_t opCodeAck = ~command[0]; /* Command Operation Code acknowledge => Command Bitwise "Not". */
+    uint8_t opCodeAck = ~command[0]; // Command Operation Code acknowledge => Command Bitwise "Not"
     switch (command[0]) {
         // ******************
         // * SETIO1_1 Reply *
@@ -133,6 +112,9 @@ void ReceiveEvent(uint8_t received_bytes) {
             UsiTwiTransmitByte(opCodeAck);
             break;
         }
+        // ******************
+        // * INFORMAT Reply *
+        // ******************        
         case INFORMAT: {
             char info[6] = {'H', 'e', 'l', 'l', 'o', '!'};
             // Wire.write(opCodeAck);
@@ -207,18 +189,6 @@ void ResetMCU(void) {
     }
 }
 
-/* ______________
-  |              |
-  | Clear Screen |
-  |______________|
-*/
-// void ClrScr(void) {
-//     Serial.write(27);     // ESC command
-//     Serial.print("[2J");  // clear screen command
-//     Serial.write(27);     // ESC command
-//     Serial.print("[H");   // cursor to home command
-// }
-
 /* __________________________
   |                          |
   | Function SetCPUSpeed1MHz |
@@ -242,3 +212,15 @@ void SetCPUSpeed8MHz(void) {
     CLKPR = (0x00);        /* Set CPU prescaler 1 (System clock / 1) */
     sei();                 /* Enable interrupts */
 }
+
+// /* ______________
+//   |              |
+//   | Clear Screen |
+//   |______________|
+// */
+// void ClrScr(void) {
+//     Serial.write(27);     // ESC command
+//     Serial.print("[2J");  // clear screen command
+//     Serial.write(27);     // ESC command
+//     Serial.print("[H");   // cursor to home command
+// }

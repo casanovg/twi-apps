@@ -35,10 +35,9 @@
 #define LED_PORT PORTB
 
 void RequestEvent(uint8_t received_bytes);
-//void ReceiveEvent(uint8_t received_bytes);
 void EnableSlowOps(void);
 void SetCPUSpeed1MHz(void);
 void SetCPUSpeed8MHz(void);
-void ClrScr(void);
+// void ClrScr(void);
 
 #endif  // BLINK_SL_TWISL_H
