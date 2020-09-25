@@ -1,5 +1,5 @@
 /*
- *  BLINK NB-USITWISL SLAVE for ATmega microcontrollers
+ *  BLINK NB-USITWISL SLAVE for ATtiny microcontrollers
  *  Author: Gustavo Casanova / Nicebots
  *  ...................................................
  *  File: blink-sl-twisl.h (Application headers)
@@ -9,16 +9,10 @@
  *  ...................................................
  */
 
-#ifndef BLINK_SL_TWISL_H
-#define BLINK_SL_TWISL_H
-
-// #ifndef __AVR_ATtiny85__
-// #define __AVR_ATtiny85__
-// #endif
+#ifndef BLINK_SL_USITWISL_H
+#define BLINK_SL_USITWISL_H
 
 // Includes
-//#include <Arduino.h>
-//#include <Wire.h>
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <avr/wdt.h>
@@ -40,4 +34,4 @@ void SetCPUSpeed1MHz(void);
 void SetCPUSpeed8MHz(void);
 // void ClrScr(void);
 
-#endif  // BLINK_SL_TWISL_H
+#endif  // BLINK_SL_USITWISL_H
