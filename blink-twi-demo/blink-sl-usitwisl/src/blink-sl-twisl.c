@@ -1,5 +1,5 @@
 /*
- *  BLINK NB-USITWISL SLAVE for ATmega microcontrollers
+ *  BLINK NB-USITWISL SLAVE for ATtiny microcontrollers
  *  Author: Gustavo Casanova / Nicebots
  *  ...................................................
  *  File: blink-sl-twisl.cpp (Blink application)
