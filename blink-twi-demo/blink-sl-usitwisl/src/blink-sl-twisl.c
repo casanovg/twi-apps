@@ -16,6 +16,7 @@
    ------------------------------
    a - (SETIO1_1) Start blinking
    s - (SETIO1_0) Stop blinking
+   i - (INFORMAT) Send "Hello!"
    x - (RESETMCU) Reset device
 */
 
