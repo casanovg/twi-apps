@@ -2,7 +2,7 @@
  *  BLINK NB-TWISL SLAVE for ATmega microcontrollers
  *  Author: Gustavo Casanova / Nicebots
  *  ................................................
- *  File: blink-sl-twisl.cpp (Blink application)
+ *  File: blink-sl-twisl.c (Blink application)
  *  ................................................ 
  *  Version: 1.0 / 2020-05-16
  *  gustavo.casanova@nicebots.com
